@@ -27,6 +27,8 @@ Displays only the file name, excluding the path name.
 - Lists the total number of tickets in ascending or descending order.
 - You can sort by clicking the column header.
 - You can move a column by dragging the column header.
+- Click the plus sign (+) to display the tickets associated with the file. Click on the displayed ticket information to jump to that ticket.
+![expand](https://user-images.githubusercontent.com/28261510/55775465-5d83dc00-5ad4-11e9-9c5d-a31f8c80528b.png)
 ### Ticket count graph
 - Display the number of each ticket as a stacked graph by tracker ID.
 - The color of stacked graph is 12 colors fixed. If the tracker has 12 or more colors, it will be used repeatedly.
