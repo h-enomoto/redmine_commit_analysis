@@ -8,7 +8,7 @@ The results show the following:
 - Files with many feature tickets may be more complex.
 # Installing
 From your Redmine plugins directory, clone this repository as `redmine_commit_analysis`  
-```git clone https://github.com/sciyoshi/redmine_commit_analysis.git redmine_commit_analysis```
+```git clone https://github.com/h-enomoto/redmine_commit_analysis.git redmine_commit_analysis```
 # Usage
 ## Search option
 Specify the conditions of the ticket to be displayed.
