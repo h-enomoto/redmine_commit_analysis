@@ -1,13 +1,13 @@
 # redmine_commit_analysis
-A plugin for redmine that displays the association between commits and tickets.  
+A plugin for redmine that displays the relationship between commits and tickets.  
 ![commit_analysis](https://user-images.githubusercontent.com/28261510/55772384-f4499c00-5ac6-11e9-8792-73b5562ab0fd.png)
 # Overview
 Counts and displays the number of commits associated with the ticket.
 The results show the following:
 - Files with many defect tickets may have degraded.
-- Files with many feature tickets may be more complex.
+- Files with many feature tickets may be too complicated.
 # Installing
-From your Redmine plugins directory, clone this repository as `redmine_commit_analysis`  
+Clone this repository into your Redmine plugins directory as `redmine_commit_analysis`  
 ```git clone https://github.com/h-enomoto/redmine_commit_analysis.git redmine_commit_analysis```
 # Usage
 ## Search option
@@ -17,17 +17,17 @@ In addition to the filter condition of issue, you can specify the following:
 - Revision(SVN Only)
 - Ignore File
 ## Display option
-- Number of display
+- Number of display  
 Specifies the number of items to display.
-- Display order
-Select whether to display tickets in descending order of the total number of tickets or in descending order of the total number of tickets.
-- Display only file name
-Displays only the file name, excluding the path name.
+- Display order  
+Select whether to display tickets in descending order or in ascending order.
+- Display only file name  
+Displays only the file name without the path name.
 ## Ticket count list
 - Lists the total number of tickets in ascending or descending order.
 - You can sort by clicking the column header.
 - You can move a column by dragging the column header.
-- Click the plus sign (+) to display the tickets associated with the file. Click on the displayed ticket information to jump to that ticket.
+- Click the plus sign (+) to display the tickets associated with the file. By clicking them you can see the detailed infomation.
 ![expand](https://user-images.githubusercontent.com/28261510/55775465-5d83dc00-5ad4-11e9-9c5d-a31f8c80528b.png)
 ## Ticket count graph
 - Display the number of each ticket as a stacked graph by tracker ID.
