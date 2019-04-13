@@ -38,3 +38,6 @@ Environment of this plugin of test follows:
 - Database is postgresql and mySQL
 # License
 redmine_commit_analysis is released under GPL3.
+# Acknowledgments
+Chart.js(https://github.com/chartjs/Chart.js)  
+w2ui(https://github.com/vitmalina/w2ui)
