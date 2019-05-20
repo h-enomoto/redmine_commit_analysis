@@ -17,4 +17,4 @@ ja:
   field_repository:   リポジトリ
   field_commit_date:  コミット日付
   field_revision:     リビジョン（SVNのみ）
-  field_ignore_file:  除外ファイル
+  field_ignore_file:  ファイル

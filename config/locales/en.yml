@@ -17,4 +17,4 @@ en:
   field_repository:   Repository
   field_commit_date:  Commit Date
   field_revision:     Revision(only SVN)
-  field_ignore_file:  Ignore File
+  field_ignore_file:  File
