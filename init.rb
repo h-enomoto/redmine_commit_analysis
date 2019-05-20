@@ -13,4 +13,5 @@ Redmine::Plugin.register :redmine_commit_analysis do
   
   require 'ca_init'
   require 'mod_issue_query'
+  require 'mod_query'
 end
