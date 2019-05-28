@@ -7,7 +7,6 @@
 <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
   <legend onclick="toggleFieldset(this);"><%= t("commit_analysis.display_graph_title") %></legend>
   <div id="charttop" data-tracker-id="<%= @trackers.to_json %>" data-changelist-id="<%= @changelist.to_json %>">
-    <canvas id="commitchart"></canvas>
   </div>
 </fieldset>
 <div  style="display: none;">

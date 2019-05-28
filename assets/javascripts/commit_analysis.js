@@ -1,14 +1,20 @@
+var redmine_commit_analysis = {};
+redmine_commit_analysis.trackers;
+redmine_commit_analysis.changeLists;
+redmine_commit_analysis.orignChangeLists;
+redmine_commit_analysis.chartData = [];
+
 $(document).ready(function () {
   
-  let trackers;
-  let changeLists;
   
   $('#scm_search').on("ajax:success", function(event, xhr, status) {
   	$('#commit_analysis_search_result').empty();
   	$('#commit_analysis_search_result').append(xhr);
-  	trackers = $('#charttop').data('tracker-id');
-  	changeLists = $('#charttop').data('changelist-id');
+  	redmine_commit_analysis.trackers = $('#charttop').data('tracker-id');
+  	redmine_commit_analysis.changeLists = $('#charttop').data('changelist-id');
+  	redmine_commit_analysis.orignChangeLists = $('#charttop').data('changelist-id');
   	drawGrid();
+  	redmine_commit_analysis.chartData = makeChartData( redmine_commit_analysis.trackers , redmine_commit_analysis.changeLists );
   	drawChart();
   });
   
@@ -39,24 +45,24 @@ $(document).ready(function () {
     
     let col = [];
     col.push({ field: 'path', caption: labelPath, size: '250px', sortable: true });
-    for( let i=0 ; i<trackers.length ; i++)
+    for( let i=0 ; i<redmine_commit_analysis.trackers.length ; i++)
     {
-      col.push({ field: 'tracker' + i, caption: trackers[i].name, style: 'text-align: center', sortable: true });
+      col.push({ field: 'tracker' + i, caption: redmine_commit_analysis.trackers[i].name, style: 'text-align: center', sortable: true });
     }
     col.push({ field: 'allCount' , caption: labelTotal, style: 'text-align: center', sortable: true });
     
     let rec = [];
     let row = {};
-    for( let i=0 ; i<changeLists.length ; i++)
+    for( let i=0 ; i<redmine_commit_analysis.changeLists.length ; i++)
     {
       row = {};
       row["recid"] = i + 1;
-      row["path"] = changeLists[i].path;
-      for( let j=0 ; j<trackers.length ; j++)
+      row["path"] = redmine_commit_analysis.changeLists[i].path;
+      for( let j=0 ; j<redmine_commit_analysis.trackers.length ; j++)
       {
-        row['tracker' + j] = changeLists[i].trackers_count[trackers[j].id];
+        row['tracker' + j] = redmine_commit_analysis.changeLists[i].trackers_count[redmine_commit_analysis.trackers[j].id];
       }
-      row["allCount"] = changeLists[i].issue_count;
+      row["allCount"] = redmine_commit_analysis.changeLists[i].issue_count;
       rec.push(row);
     }
     
@@ -71,13 +77,28 @@ $(document).ready(function () {
       records: rec,
       onExpand: function (event) {
         $('#'+event.box_id).html(makeTicketLinkHtml(event));
+      },
+      onSort: function (event) {
+        event.done(function () {
+          let newChangeList = [];
+
+          for( let i=0 ; i<w2ui['ticketgrid'].records.length ; i++ )
+          {
+            let pos = w2ui['ticketgrid'].records[i].recid - 1;
+            newChangeList.push(redmine_commit_analysis.orignChangeLists[pos]);
+          }
+          redmine_commit_analysis.changeLists = [];
+          redmine_commit_analysis.changeLists = newChangeList;
+          redmine_commit_analysis.chartData = makeChartData( redmine_commit_analysis.trackers , redmine_commit_analysis.changeLists );
+          drawChart();
+        });
       }
     });
   }
   
   function makeTicketLinkHtml( event )
   {
-    let ticketArray = changeLists[event.recid - 1].tickets.split(",");
+    let ticketArray = redmine_commit_analysis.orignChangeLists[event.recid - 1].tickets.split(",");
     let ret = "";
     for( let i=0 ; i<ticketArray.length ; i++ )
     {
@@ -93,51 +114,57 @@ $(document).ready(function () {
     let trackerCount = 0;
     let changelistCount = 0;
     
-    if ( trackers !== null && trackers !== undefined )
+    redmine_commit_analysis.charaData = [];
+    
+    if ( redmine_commit_analysis.trackers !== null && redmine_commit_analysis.trackers !== undefined )
     {
-      trackerCount = trackers.length;
+      trackerCount = redmine_commit_analysis.trackers.length;
     }
-    if ( changeLists !== null && changeLists !== undefined )
+    if ( redmine_commit_analysis.changeLists !== null && redmine_commit_analysis.changeLists !== undefined )
     {
-      changelistCount = changeLists.length;
+      changelistCount = redmine_commit_analysis.changeLists.length;
     }
 
     let srcname = [];
     for( let i=0 ; i<changelistCount ; i++)
     {
-       srcname.push(changeLists[i].path)
+       srcname.push(redmine_commit_analysis.changeLists[i].path);
     }
     
     let values = [];
-    let trackerValues = [];
     for( let i=0 ; i<trackerCount ; i++)
     {
       values = [];
       for( let j=0 ; j<changelistCount ; j++)
       {
-        values.push(changeLists[j].trackers_count[trackers[i].id]);
+        values.push(redmine_commit_analysis.changeLists[j].trackers_count[redmine_commit_analysis.trackers[i].id]);
       }
-      trackerValues.push({"name" : trackers[i].name, "values" : values});
       chartdata.push({
-        "label": trackers[i].name, 
+        "label": redmine_commit_analysis.trackers[i].name, 
         "data" : values, 
         "backgroundColor" : background[i%12]}
       ); 
       
     }
+    
     return { "data" : chartdata , "srcname" : srcname };
   }
   
   function drawChart()
   {
-    let chartdata = makeChartData( trackers , changeLists );;
+    if ( $("#commitchart") )
+    {
+      $("#commitchart").remove();
+      $("#charttop").append('<canvas id="commitchart"></canvas>');
+    }
     
     let ctx = $("#commitchart");
+    
     let chart = new Chart(ctx, {
       type: 'horizontalBar',
       data: {
-          labels: chartdata.srcname,
-          datasets: chartdata.data
+          labels: redmine_commit_analysis.chartData.srcname,
+          datasets: redmine_commit_analysis.chartData.data
       },
       options: {
         scales: {
