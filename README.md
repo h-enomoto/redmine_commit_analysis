@@ -26,6 +26,7 @@ Displays only the file name without the path name.
 ## Ticket count list
 - Lists the total number of tickets in ascending or descending order.
 - You can sort by clicking the column header.
+![sort](https://user-images.githubusercontent.com/28261510/58474995-b0e6e200-8187-11e9-9576-3117851b162b.gif)
 - You can move a column by dragging the column header.
 - Click the plus sign (+) to display the tickets associated with the file. By clicking them you can see the detailed infomation.
 ![expand](https://user-images.githubusercontent.com/28261510/55775465-5d83dc00-5ad4-11e9-9c5d-a31f8c80528b.png)
