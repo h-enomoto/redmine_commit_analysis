@@ -1,11 +1,11 @@
 <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
-  <legend onclick="toggleFieldset(this);"><%= t("commit_analysis.display_list_title") %></legend>
+  <legend onclick="toggleFieldset(this);" class="icon icon-<%= @query.new_record? ? "expended" : "collapsed" %>"><%= t("commit_analysis.display_list_title") %></legend>
   <div id="gridtop" style="height:270px; margin: 5px 0px 20px 0px">
   </div>
 </fieldset>
 
 <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
-  <legend onclick="toggleFieldset(this);"><%= t("commit_analysis.display_graph_title") %></legend>
+  <legend onclick="toggleFieldset(this);" class="icon icon-<%= @query.new_record? ? "expended" : "collapsed" %>"><%= t("commit_analysis.display_graph_title") %></legend>
   <div id="charttop" data-tracker-id="<%= @trackers.to_json %>" data-changelist-id="<%= @changelist.to_json %>">
   </div>
 </fieldset>

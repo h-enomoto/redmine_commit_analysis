@@ -10,8 +10,6 @@ class ScmsController < ApplicationController
 
     @project = Project.find_by_id(params["project_id"])
 
-Rails.logger.info("User=#{User}")
-
     if params["v"].nil?
       @trackers = Tracker.visible(User.current).order(:id)
     else 

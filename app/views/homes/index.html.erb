@@ -6,18 +6,20 @@
 
 <%= form_tag({:controller => 'scms', :action => 'commit_files'}, :method => :get, :id => "scm_search", :remote => true) do %>
   <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
-    <legend onclick="toggleFieldset(this);"><%= t("commit_analysis.search_option") %></legend>
+    <legend onclick="toggleFieldset(this);" class="icon icon-<%= @query.new_record? ? "expended" : "collapsed" %>"><%= t("commit_analysis.search_option") %></legend>
     <div style="<%= @query.new_record? ? "" : "display: none;" %>">
       <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
     </div>
   </fieldset>
   <fieldset id="displayoption" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
-    <legend onclick="toggleFieldset(this);"><%= t("commit_analysis.display_option") %></legend>
+    <legend onclick="toggleFieldset(this);" class="icon icon-<%= @query.new_record? ? "expended" : "collapsed" %>"><%= t("commit_analysis.display_option") %></legend>
     <div style="<%= @query.new_record? ? "" : "display: none;" %>">
       <div style="margin-top:5px">
         <label>
           <%= t("commit_analysis.display_limit") %> :
-          <input type="number" name="display_limit" value="10" min="1" style="width:70px; margin-left:5px" >
+          <input type="number" id="display_skip" name="display_skip" value="1" min="1" style="width:70px; margin-left:5px" required="required">
+          <label>-</label>
+          <input type="number" id="display_limit" name="display_limit" value="10" min="1" style="width:70px; margin-left:5px" required="required">
         </label>
       </div>
       <div style="margin-top:5px">
@@ -35,8 +37,9 @@
   </fieldset>
   <input type="hidden" name="set_filter" id="set_filter" value="1" />
   <input type="hidden" name="project_id" id="project_id" value="<%= @project.id.to_s %>" />
-  <%= submit_tag t("commit_analysis.view"), :id => 'commit_files_search' %>
+  <%= submit_tag t("commit_analysis.view_down"), :id => 'commit_files_search_prev' , :onclick => 'updateRange("down");' %>
+  <%= submit_tag t("commit_analysis.view"), :id => 'commit_files_search' , :onclick => 'updateRange("current");' %>
+  <%= submit_tag t("commit_analysis.view_up"), :id => 'commit_files_search_next' , :onclick => 'updateRange("up");' %>
 <% end %>
-
-<div id="commit_analysis_search_result" style="margin-top:20px"/>
-
+<div id="commit_analysis_search_result" style="margin-top:20px">
+</div>

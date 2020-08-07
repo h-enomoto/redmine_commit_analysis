@@ -163,12 +163,26 @@ EOS
   
   def createCountQuery_cond_limit(params)
     option = "display_limit"
+    skip = "display_skip"
+    retCond = ""
+    skipCount = 0
+    limitCount = 0
 
-    if params[option].nil?
-      return ""
+    if params[skip].nil?
     else
-      return " limit #{params[option]}"
+      skipCount = params[skip].to_i - 1
     end
+    if params[option].nil?
+    else
+      limitCount = params[option].to_i - skipCount
+    end
+
+    if ( ActiveRecord::Base.connection_config[:adapter] == "postgresql" )
+      retCond = " limit #{limitCount} offset #{skipCount}"
+    else
+      retCond = " limit #{skipCount},#{limitCount}"
+    end
+    return retCond
   end
   
 end

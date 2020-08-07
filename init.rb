@@ -2,7 +2,7 @@ Redmine::Plugin.register :redmine_commit_analysis do
   name 'Redmine Commit Analysis Plugin'
   author 'h_enomoto'
   description 'A plugin for redmine that displays the association between commits and tickets.'
-  version '1.0.0'
+  version '1.1.0'
   url 'https://github.com/h-enomoto/redmine_commit_analysis'
   author_url 'http://www.livingston.co.jp'
   

@@ -2,10 +2,12 @@
 en:
   commit_analysis:
     view:               Display
+    view_down:          Prev
+    view_up:            Next
     file_path:          File Path
     total_count:        Total
     search_option:      Search Option
-    display_limit:      Number of display
+    display_limit:      Display Range
     display_option:     Display Option
     display_order:      Display Order
     display_order_asc:  Ascending

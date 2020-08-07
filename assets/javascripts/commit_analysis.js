@@ -9,7 +9,7 @@ $(document).ready(function () {
   
   $('#scm_search').on("ajax:success", function(event, xhr, status) {
   	$('#commit_analysis_search_result').empty();
-  	$('#commit_analysis_search_result').append(xhr);
+  	$('#commit_analysis_search_result').append(event.detail[2].response);
   	redmine_commit_analysis.trackers = $('#charttop').data('tracker-id');
   	redmine_commit_analysis.changeLists = $('#charttop').data('changelist-id');
   	redmine_commit_analysis.orignChangeLists = $('#charttop').data('changelist-id');
@@ -37,6 +37,7 @@ $(document).ready(function () {
   {
     let labelPath = $("#label_path").text();
     let labelTotal = $("#label_total").text();
+    let rowNumber = Number($("#display_skip").val());
     
     if ( w2ui['ticketgrid'] )
     {
@@ -44,6 +45,7 @@ $(document).ready(function () {
     }
     
     let col = [];
+    col.push({ field: 'no', caption: 'RecNo.', size: '65px', sortable: true });
     col.push({ field: 'path', caption: labelPath, size: '250px', sortable: true });
     for( let i=0 ; i<redmine_commit_analysis.trackers.length ; i++)
     {
@@ -57,6 +59,7 @@ $(document).ready(function () {
     {
       row = {};
       row["recid"] = i + 1;
+      row["no"] = i + rowNumber;
       row["path"] = redmine_commit_analysis.changeLists[i].path;
       for( let j=0 ; j<redmine_commit_analysis.trackers.length ; j++)
       {
@@ -102,7 +105,7 @@ $(document).ready(function () {
     let ret = "";
     for( let i=0 ; i<ticketArray.length ; i++ )
     {
-      ret = ret + "<div style='padding: 2px'><a href='/issues/" + ticketArray[i] + "'>#" + ticketArray[i] + "</a></div>";
+      ret = ret + "<div style='padding: 2px'><a href='./issues/" + ticketArray[i] + "'>#" + ticketArray[i] + "</a></div>";
     }
     return "<div style='padding: 0px 0px 0px 8px; height: 92px; overflow:auto'>" + ret + "</div>";
   }
@@ -160,6 +163,9 @@ $(document).ready(function () {
     
     let ctx = $("#commitchart");
     
+    $("#commitchart").css("height",((redmine_commit_analysis.chartData.srcname.length * 60) + 70 ) + "px");
+    $("#commitchart").css("width","100%");
+    
     let chart = new Chart(ctx, {
       type: 'horizontalBar',
       data: {
@@ -180,10 +186,38 @@ $(document).ready(function () {
         },
         tooltips: {
             position: 'nearest'
-          },
-          responsive: true
+          }
       }
     });  
   }
   
 });
+
+function updateRange(updown)
+{
+  var currentSkip = Number($("#display_skip").val());
+  var currentLimit = Number($("#display_limit").val());
+  var currentSpan = currentLimit - currentSkip + 1;
+
+  if ( updown === "up" )
+  {
+    $("#display_skip").val([currentSkip + currentSpan]);
+    $("#display_limit").val([currentLimit + currentSpan]);
+  }
+  else
+  {
+    if ( updown === "down" )
+    {
+      if ( currentSkip - currentSpan < 1 )
+      {
+        $("#display_skip").val([1]);
+        $("#display_limit").val([currentSpan]);
+      }
+      else
+      {
+        $("#display_skip").val([currentSkip - currentSpan]);
+        $("#display_limit").val([currentLimit - currentSpan]);
+      }
+    }
+  }
+}

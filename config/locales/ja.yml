@@ -2,10 +2,12 @@
 ja:
   commit_analysis:
     view:               表示
+    view_down:          前ページ
+    view_up:            後ページ
     file_path:          ファイルパス
     total_count:        合計
     search_option:      検索オプション
-    display_limit:      表示件数
+    display_limit:      表示範囲
     display_option:     表示オプション
     display_order:      表示順序
     display_order_asc:  昇順
