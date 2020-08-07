@@ -37,7 +37,7 @@ Displays only the file name without the path name.
 - The color of stacked graph is 12 colors fixed. If the tracker has 12 or more colors, it will be used repeatedly.
 # Test environment
 Environment of this plugin of test follows:
-- Redmine 4.0.1
+- Redmine 4.1.1
 - Database is postgresql and mySQL
 # License
 redmine_commit_analysis is released under GPL3.
